@@ -35,6 +35,7 @@ SSM_enero <- stack(list.files("C:/Users/Usuario/Documents/Análisis de Tesis en 
 plot(SSM_enero)
 
 ![image](https://user-images.githubusercontent.com/78845785/117970623-29212080-b329-11eb-91b2-fe3eb653d065.png)
+![image](https://user-images.githubusercontent.com/78845785/117984022-c08d7000-b337-11eb-8ac5-264283d785da.png)
 
 
 ### METODO ESTADISTICO DE CORRELACIÓN
@@ -42,22 +43,29 @@ plot(SSM_enero)
 ##### Primero se Ajustan los datos para el mismo mes (cambio de tamaño de pixel a uno mismo), es la misma capa Ajuste_NDVIenero, para que quede en el mismo tamaño ssm 'ngb' este metodo se refiere que ajusta a los vecinos cercanos 
 Ajuste_NDVI_Enero <- resample(ESP_NDVI_E, SSM_enero, method='ngb')
 plot(Ajuste_NDVI_Enero)
+![image](https://user-images.githubusercontent.com/78845785/117984171-e61a7980-b337-11eb-9b0c-cbfb7009957a.png)
 
 ##### Mediana de los 3 dias de enero NDVI
 medianaNDVIenero <- calc(Ajuste_NDVI_Enero, median, na.rm=TRUE)
 writeRaster(medianaNDVIenero, file="medianadiaexacNDVIenero.tif")
+![image](https://user-images.githubusercontent.com/78845785/117983673-773d2080-b337-11eb-9ce9-d14798d70eec.png)
 
 ###### Mediana de los 3 dias de enero SSM (Cuando na.rm es TRUE, la función omite cualquier valor de NA.)
 medianaSSMenero <- calc(SSM_enero, median, na.rm=TRUE)
 writeRaster(medianaSSMenero, file="medianadiaexactoSSMenero.tif")
+![image](https://user-images.githubusercontent.com/78845785/117983854-9d62c080-b337-11eb-8b79-fb02c2737b81.png)
 
 #Desviación estandar de los 3 dias de enero NDVI
 SDNDVIenero <- calc(Ajuste_NDVI_Enero, sd, na.rm=TRUE)
 writeRaster(SDNDVIenero, file="DesvstandiaexactNDVIenero.tif")
 
+![image](https://user-images.githubusercontent.com/78845785/117983403-35ac7580-b337-11eb-90a2-17a2db55a40b.png)
+
 #Desviación estandar de los 3 dias de enero SSM
 SDSSMenero <- calc(SSM_enero, sd, na.rm=TRUE)
 writeRaster(SDSSMenero, file="DesviacionstandardiaexactoSSMenero.tif")
+
+![image](https://user-images.githubusercontent.com/78845785/117983534-58d72500-b337-11eb-9f96-268d02aff6ea.png)
 
 ###### Raster correlation (s es el tamaño de la ventana móvil para la correlación, x=SSM; y=NDVI)
 correlaciónSSMNDVIenero <-rasterCorrelation(medianaSSMenero, medianaNDVIenero,  s = 9, type = "pearson")
